@@ -18,6 +18,7 @@ public class Launcher extends AbstractVerticle {
 
     //创建HttpServer
     final HttpServer server = vertx.createHttpServer();
+
     //第二步,初始化|实例化 Router,若要添加跨域请求的话,随着就配置跨域
     final Router router = Router.router(vertx);
     final Set<HttpMethod> methods = new HashSet<>();
@@ -29,10 +30,6 @@ public class Launcher extends AbstractVerticle {
     //第三步,配置Router解析url
     router.route("/").blockingHandler(context -> {
       ToolClient.responseJson(context,ToolClient.createJson(200,"操作成功"));
-    });
-
-    router.route("/login").blockingHandler(context -> {
-      ToolClient.responseJson(context,ToolClient.createJson(200,"登录成功","vert.x提供服务"));
     });
 
     //第四步,将router和 HttpServer 绑定[若是使用配置文件则这样实例化,如果不配置文件则把它挪动到lambda外边即可]
