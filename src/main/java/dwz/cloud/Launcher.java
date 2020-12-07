@@ -7,6 +7,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.CorsHandler;
+import io.vertx.ext.web.handler.StaticHandler;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,6 +32,8 @@ public class Launcher extends AbstractVerticle {
     router.route("/").blockingHandler(context -> {
       ToolClient.responseJson(context,ToolClient.createJson(200,"操作成功"));
     });
+
+    router.route("/*").handler(StaticHandler.create()); //配置静态资源访问,其访问路径/favicon.ico,若前面配置的 /static/*,则访问是 /static/favicon.ico
 
     //第四步,将router和 HttpServer 绑定[若是使用配置文件则这样实例化,如果不配置文件则把它挪动到lambda外边即可]
     server.requestHandler(router).listen(89,http -> {
